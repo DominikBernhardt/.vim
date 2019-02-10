@@ -8,52 +8,94 @@ snippet newcom "newcommand" bA
 endsnippet
 
 ##### Automatic snippets #####
+snippet TODO "Insert TODO comment" bA
+\todo{%
+$0
+}
+endsnippet
 # Abbreviations
+# Dissertation Abbreviations
+snippet ULL "underline" A
+\underline \ell
+endsnippet
+
 snippet NLT "nearly-linear time" A
 nearly-linear time
 endsnippet
 
+snippet ELL "math l" A
+\ell
+endsnippet
+
+snippet CD "cartesian decomposition" A
+cartesian decomposition
+endsnippet
+
 # Environments
+snippet MM "standard math environment" bA
+\$
+    ${0}
+\$
+endsnippet
+
+snippet DM "display math environment" bA
+\[
+    ${0}
+\]
+endsnippet
+
 snippet PRF "proof environment" A
 \begin{proof}
 $0
 \end{proof}
 endsnippet
 
-snippet defi "Definition" bA
+snippet DEF "Definition" bA
 \begin{defi}
     ${0}
 \end{defi}
 endsnippet
 
-snippet thm "Theorem" bA
+snippet THM "Theorem" bA
 \begin{thm}
     ${0}
 \end{thm}
 endsnippet
 
-snippet prp "Proposition" bA
+snippet PRP "Proposition" bA
 \begin{prp}
     ${0}
 \end{prp}
 endsnippet
 
-snippet cor "Corollary" bA
+snippet COR "Corollary" bA
 \begin{cor}
     ${0}
 \end{cor}
 endsnippet
 
-snippet lem "Lemma" bA
+snippet LEM "Lemma" bA
 \begin{lemma}
     ${0}
 \end{lemma}
 endsnippet
 
-snippet ex "Example" bA
+snippet EX "Example" bA
 \begin{ex}
     ${0}
 \end{ex}
+endsnippet
+
+snippet ENUM "Enumerate" bA
+\begin{enumerate}
+    \item$0
+\end{enumerate}
+endsnippet
+
+snippet ITEM "Itemize" bA
+\begin{itemize}
+    \item$0
+\end{itemize}
 endsnippet
 
 # symbols
@@ -71,7 +113,7 @@ snippet EMP "\emph" A
 \emph{$0}
 endsnippet
 
-# begin / end things
+# Stuff
 
 snippet SS "insert sergio comment" A
 \se{$0}
@@ -93,7 +135,10 @@ snippet TE "insert text" A
 \text{$0}
 endsnippet
 
-snippet "beg(in)?" "begin{} / end{}" brA
+############################
+# Environments
+############################
+snippet "BEG" "begin{} / end{}" brA
 \begin{${1:something}}
 	${0:${VISUAL}}
 \end{$1}
@@ -123,18 +168,6 @@ snippet fig "Figure environment" b
 	\caption{${4/(\w+)\.\w+/\u$1/}$0}
 	\label{fig:${4/(\w+)\.\w+/$1/}}
 \end{figure}
-endsnippet
-
-snippet enum "Enumerate" b
-\begin{enumerate}
-	\item$0
-\end{enumerate}
-endsnippet
-
-snippet item "Itemize" b
-\begin{itemize}
-	\item$0
-\end{itemize}
 endsnippet
 
 snippet desc "Description" b
@@ -229,18 +262,8 @@ snippet defb "Definitions Block" bA
 endsnippet
 
 # Shortcuts
-snippet mnsg "minimal normal subgroup" A
+snippet MNSG "minimal normal subgroup" A
 minimal normal subgroup
-endsnippet
-
-snippet mm "standard math environment" bA
-    \$${0}\$
-endsnippet
-
-snippet dm "display math environment" bA
-\[
-    ${0}
-\]
 endsnippet
 
 snippet ** "\times" A

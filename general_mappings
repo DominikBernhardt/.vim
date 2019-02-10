@@ -8,11 +8,14 @@
 "------------------------------------------------------------
 "
 " Move through splits by Ctrl + Arrow keys
-" You can move through tabs with Ctrl + PageUp / PageDown
 noremap <S-Up> <C-W>k
 noremap <S-Down> <C-W>j
 noremap <S-Right> <C-W>l
 noremap <S-Left> <C-W>h
+" You can move through tabs with Ctrl + PageUp / PageDown
+" Make this also work in terminal mode
+:tnoremap <C-PageUp> <C-\><C-N><C-PageUp>
+:tnoremap <C-PageDown> <C-\><C-N><C-PageDown>
 
 " <Ctrl-l> redraws the screen and removes any search highlighting.
 nnoremap <silent> <C-l> :nohl<CR><C-l>
@@ -28,7 +31,8 @@ let mapleader=" "
 
 " Fugitive mappings
 noremap <leader><S-G> :Git 
-noremap <leader>s :Gstatus<CR>
+noremap <leader>gg :Gstatus<CR>/modified<CR>
+noremap <leader>s :Gstatus<CR>/modified<CR>
 noremap <leader>gs :Git show<CR>
 noremap <leader>gl :Git log<CR>
 noremap <leader>gd :Git diff<CR>
@@ -48,8 +52,8 @@ noremap <leader>gD :diffoff \| windo if &diff \| hide \| endif<CR>:Gedit<CR>
 noremap <leader>l :buffers<CR>:b 
 " Go to last buffer
 noremap <leader>u :b#<CR>
-" Reload buffer
-noremap <leader>e :e<CR>
+" Open current working directory
+noremap <leader>e :e .<CR>
 noremap <leader>j :bnext<CR>
 noremap <leader>k :bprev<CR>
 
@@ -62,10 +66,10 @@ noremap <leader>tj :tabmove +1<CR>
 noremap <leader>tk :tabmove -1<CR>
 
 " Yank and Paste
-" Yank selection into the OS clipboard
-noremap <leader>y "+y
 " Yank line into the OS clipboard
-noremap <leader>Y "+yy
+nnoremap <leader>y "+yy
+" Yank selection into the OS clipboard
+xnoremap <leader>y "+y
 " Paste from 'middle mouse button' register
 noremap <leader>m "*p
 
@@ -89,3 +93,5 @@ noremap <leader>p :set paste!<CR>
 " You can use :Q to quit (instead of getting an error msg)
 ca Q q
 ca QA qa
+
+" vim: set ft=vim

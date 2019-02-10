@@ -114,6 +114,9 @@ set hidden
 
 " Better command-line completion
 set wildmenu
+" First tab completes to longest common prefix. Afterwards tabs cycle full
+" completions.
+set wildmode=longest:full,full
 
 " Show partial commands in the last line of the screen
 set showcmd
@@ -256,7 +259,7 @@ let g:neomake_enabled_makers=['make']
 
 "-----------------------------------------------------------------------------
 " Miscellanous fixes
-" These will probably be incorporated into upstream at some point in time
+" These will probably be incorporated into fugitive at some point in time
 "-----------------------------------------------------------------------------
 " Fix for fugitive `Gpush` freezing under neovim
 if (len($SECURITYSESSIONID) || len($DISPLAY)) && empty($SSH_ASKPASS)

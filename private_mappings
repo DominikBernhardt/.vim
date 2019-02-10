@@ -1,4 +1,22 @@
 "------------------------------------------------------------
+" Formatting options
+"------------------------------------------------------------
+" Settings to wrap text automatically
+" textwidth is used as the max line length when wrapping
+set textwidth=79
+"   t automatic line wrapping in text
+"   c automatic line wrapping in comments
+"   r insert comment leader when hitting <ENTER> in insert mode
+set formatoptions+=tcr
+"   o insert comment leader when hitting 'o' or 'O' in normal mode
+set formatoptions-=o 
+
+"------------------------------------------------------------
+" Highlighting
+"------------------------------------------------------------
+" Highlights trailing whitespace
+match Todo /\s\+$/
+"------------------------------------------------------------
 " Plug-In configurations
 "------------------------------------------------------------
 
@@ -16,10 +34,22 @@ map <Left> <Plug>RepeatMotionLeft
 "------------------------------------------------------------
 " Leader maps
 "------------------------------------------------------------
+" Search backwards for a line without indentation
+" Can be used for GAP code to jump to definition of the outermost function.
+noremap <leader>d <ESC>?^\S<CR>:nohl<CR>
 inoremap <S-space> <ESC>
 noremap <leader><space> 10j
-inoremap <S-del> <ESC>$a  <del><ESC>dw
+" Delete EOL and following whitespace, if we were in insert mode
+" we go back to insert mode afterwards.
+inoremap <S-del> <ESC>$a  <del><ESC>dwi
 noremap <S-del> $a  <del><ESC>dw
+
+" Remap Y to be similar to C and D
+noremap Y y$
+
+"------------------------------------------------------------
+" Fugitive maps
+map <leader>- <leader>gg
 
 "------------------------------------------------------------
 " Set location of swap files for use on elwin
@@ -30,7 +60,25 @@ endif
 " Insert GAPDoc XML-tags
 noremap <leader>a a<A></A><ESC>3hi
 
-" Quit
+"------------------------------------------------------------
+" Maps for movement
+:noremap <S-tab> <C-W><C-W>
+:tnoremap <S-tab> <C-\><C-N><C-W><C-W>
+
+"------------------------------------------------------------
+" Maps for terminal mode
+" Make <C-W> exit terminal mode
+:tnoremap <C-W> <C-\><C-N>
+
+" Save
+noremap  <C-s> :w<CR>
+inoremap <C-s> <ESC>:w<CR>
+" Save and quit
 " Unfortunately <C-w> is already used for working with splits
-noremap <C-q> :q<CR>
-noremap <leader><C-q> :q!<CR>
+noremap   <C-q> :wq<CR>
+inoremap  <C-q> <ESC>:wq<CR>
+" Quit without saving
+noremap  <leader>q :q<CR>
+noremap  <leader>fq :q!<CR>
+
+" vim: set ft=vim
