@@ -63,7 +63,7 @@ syn keyword gapMethsel  NewMethod
 
 syn keyword gapOperator	and div in mod not or
 
-syn keyword gapFunction	function -> return local end Error ErrorNoReturn
+syn keyword gapFunction	function -> return local end Error 
 syn keyword gapConditional	if else elif then fi
 syn keyword gapRepeat		do od for while repeat until
 syn keyword gapOtherKey         Info Unbind IsBound
@@ -75,8 +75,9 @@ syn match  gapParentheses	"[)(]"
 syn match  gapSublist	"[}{]"
 
 "hilite
-" this is very much dependent on personal taste, must add gui case if you
-" use gvim
+" this is very much dependent on personal taste, the gui* entries are for
+" gvim (see below for an alternative to link the layout to predefined
+" values, see `:highlight` for an overview of defined names).
 hi gapString ctermfg=2 guifg=Green
 hi gapFunction  ctermfg=1 guifg=Red
 hi gapDeclare  cterm=bold ctermfg=4 guifg=DarkBlue
@@ -96,6 +97,26 @@ hi gapListDelimiter ctermfg=8 guifg=Gray
 hi gapParentheses ctermfg=12 guifg=Blue
 hi gapSublist ctermfg=14 guifg=LightBlue
 hi gapFunLine ctermbg=3 ctermfg=0 guibg=LightBlue guifg=Black
+""""  alternatively, comment the `hi ...` lines above and uncomment below
+" hi link gapString                      String
+" hi link gapFunction                    Function
+" hi link gapDeclare                     Define
+" hi link gapMethsel                     Special
+" hi link gapOtherKey                    SpecialKey
+" hi link gapOperator                    Operator
+" hi link gapConditional                 Conditional
+" hi link gapRepeat                      Repeat
+" hi link gapComment                     Comment
+" hi link gapTodo                        Todo
+" hi link gapTTodoComment                gapTodo 
+" hi link gapTodoComment                 gapTodo
+" hi link gapNumber                      Number
+" hi link gapBool                        Boolean
+" hi link gapChar                        Character
+" hi link gapListDelimiter               Delimiter
+" hi link gapParentheses                 gapListDelimiter
+" hi link gapSublist                     gapListDelimiters
+" hi link gapFunLine                     TabLine
 
 syn sync maxlines=500
 
@@ -143,13 +164,13 @@ let b:current_syntax = "gap"
 
 " some macros for editing GAP files (adjust as you like)
 " This adds word under cursor to local variables list.
-" map <F4> miviwy?\<local\><CR>/;<CR>i, <ESC>p`i
-" map! <F4> <ESC>miviwy?\<local\><CR>/;<CR>i, <ESC>p`ia
+map <F4> miviwy?\<local\><CR>/;<CR>i, <ESC>p`i
+map! <F4> <ESC>miviwy?\<local\><CR>/;<CR>i, <ESC>p`ia
 
 " for word completion, fall back to list of GAP global variable names
 " (after loading your favourite packages in GAP say:
 " for w in NamesGVars() do AppendTo("~/.vim/GAPWORDS",w,"\n"); od;    )
-set complete=.,w,b,u,t,i,k,"~/.vim/GAPWORDS"
+set complete=.,w,b,u,t,i,k~/.vim/GAPWORDS
 
 " function for *toggling* GAP comments in beginning of line
 func! ToggleCommentGAP()
@@ -162,8 +183,11 @@ func! ToggleCommentGAP()
     let l = "##  " . l
   endif
   call setline(".", l)
-  normal! k
 endfunc
+" I put it on F12, adjust as you like
+map <F12> :call ToggleCommentGAP()<CR>j
+map! <F12> <ESC>:call ToggleCommentGAP()<CR>ji
+
 
 " function for nice indenting after line breaks (bound to <C-J>)
 
@@ -208,7 +232,7 @@ func! GAPnl()
 endfunc
 
 " call GAPnl, goto end of next line and in append mode
-" map! <C-J> <ESC>:call GAPnl()<CR>j$a
+map! <C-J> <ESC>:call GAPnl()<CR>j$a
 
 " position count from 0 here
 " (we assume that pos is after the begin delimiter b to match)
@@ -329,22 +353,20 @@ function! GAPlocal()
   if (strlen(vars) > 1)
     let vars = strpart(vars, 1, strlen(vars) - 2)
     let vars = substitute(vars, ",", ", ", "g")
-    let vars = matchstr(getline(locline), "^[ ]*") . "    local " . vars . ";"
+    let vars = matchstr(getline(locline), "^[ ]*") . "  local " . vars . ";"
     call append(locline, vars)
   endif
   return
 endfunction
 
-" 
-" " very personal, for adding GAPDoc XML code in comments in GAP file
-" vmap <ESC>}F14 y:n bla.xml<CR>Gp:.,$ s/##  \(.*\)/\1/<CR>i
-" map <ESC>}F15 :n bla.xml<CR>:1,$ s/\(.*\)/##  \1/<CR>1GVGyu<C-^>gpi
-" map! <ESC>}F15 <ESC>:n bla.xml<CR>:1,$ s/\(.*\)/##  \1/<CR>1GVGyu<C-^>gpi
-" vmap <ESC>}F22 !(mv -f bla.xml bla1.xml; sed -e "s/^\#\#  \(.*\)/\1/" >bla.xml;xterm -e vim bla.xml ;sed -e "s/\(.*\)/\#\#  \1/" bla.xml)<CR><CR>
+" I map it on F5
+map! <F5> <ESC>:call GAPlocal()<CR>i
+map <F5> :call GAPlocal()<CR>
 
+" very personal, for adding GAPDoc XML code in comments in GAP file
+vmap <ESC>}F14 y:n bla.xml<CR>Gp:.,$ s/##  \(.*\)/\1/<CR>i
+map <ESC>}F15 :n bla.xml<CR>:1,$ s/\(.*\)/##  \1/<CR>1GVGyu<C-^>gpi
+map! <ESC>}F15 <ESC>:n bla.xml<CR>:1,$ s/\(.*\)/##  \1/<CR>1GVGyu<C-^>gpi
+vmap <ESC>}F22 !(mv -f bla.xml bla1.xml; sed -e "s/^\#\#  \(.*\)/\1/" >bla.xml;xterm -e vim bla.xml ;sed -e "s/\(.*\)/\#\#  \1/" bla.xml)<CR><CR>
 
-map  <C-c> :call ToggleCommentGAP()<CR>j
-map! <C-c> <ESC>:call ToggleCommentGAP()<CR>ji
-
-" map! <F5> <ESC>:call GAPlocal()<CR>i
- map <F5> :call GAPlocal()<CR>
+" vim: ts=2

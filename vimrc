@@ -278,3 +278,5 @@ runtime general_mappings
 " My personal maps. Create this symbolic link to the file vimrc_private to
 " enable the personal maps
 runtime link_to_private_mappings
+let g:powerline_pycmd="py3"
+set clipboard=unnamedplus
