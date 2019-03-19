@@ -154,7 +154,7 @@ if version>=600
   syn sync fromstart
   set foldmethod=expr
   set foldminlines=3
-  set foldexpr=GAPFoldLevel(v:lnum)
+"  set foldexpr=GAPFoldLevel(v:lnum)
   hi Folded ctermbg=6 ctermfg=0
   " load the indent file
   runtime indent/gap.vim
